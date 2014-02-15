@@ -33,8 +33,22 @@ public class VideoPanel extends EmbeddedMediaPlayerComponent implements DropTarg
 	private void loadVideo(File file) {
 		System.out.println(file);
 		this.getMediaPlayer().prepareMedia(file.toString());
+	}
+	
+	public void play() {
 		this.getMediaPlayer().play();
-		System.out.println("playing");
+	}
+	
+	public void pause() {
+		this.getMediaPlayer().pause();
+	}
+	
+	public void toStart() {
+		this.getMediaPlayer().setPosition(0);
+	}
+	
+	public void step() {
+		this.getMediaPlayer().nextFrame();
 	}
 
 	@Override

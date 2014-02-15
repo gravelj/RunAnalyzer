@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -12,6 +14,8 @@ import com.sun.jna.NativeLibrary;
 @SuppressWarnings("serial")
 public class Dashboard extends JFrame {
 	
+	ArrayList<VideoPanel> videoPanels;
+	
 	private Dashboard() {
 		super("Dashboard");
 		NativeLibrary.addSearchPath(
@@ -24,13 +28,43 @@ public class Dashboard extends JFrame {
 		
 		this.setLayout(new MigLayout());
 		
-		this.add(new WorkspaceView(), "span 1 3");
-		this.add(new VideoPanel(), "wrap 0");
-		this.add(new VideoPanel(), "wrap 0");
-		this.add(new MasterControl(), "wrap 0");
+		videoPanels = new ArrayList<VideoPanel>();
+		videoPanels.add(new VideoPanel());
+		videoPanels.add(new VideoPanel());
+		
+		// span 1 wide and tall enough to hold videoPanels + controls
+		this.add(new WorkspaceView(), "span 1 " + videoPanels.size()+1);
+		for (VideoPanel videoPanel: videoPanels) {
+			this.add(videoPanel, "wrap 0");
+		}
+		this.add(new MasterControl(this), "wrap 0");
 
 		this.pack();
 		this.setVisible(true);
+	}
+	
+	public void play() {
+		for (VideoPanel videoPanel: videoPanels) {
+			videoPanel.play();
+		}
+	}
+	
+	public void pause() {
+		for (VideoPanel videoPanel: videoPanels) {
+			videoPanel.pause();
+		}
+	}
+	
+	public void toStart() {
+		for (VideoPanel videoPanel: videoPanels) {
+			videoPanel.toStart();
+		}
+	}
+	
+	public void step() {
+		for (VideoPanel videoPanel: videoPanels) {
+			videoPanel.step();
+		}
 	}
 
 	public static void main(String[] args) {
